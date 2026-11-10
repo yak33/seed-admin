@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.1.2</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>io.github.yak33</groupId>
+  <artifactId>seed-admin</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <description>seed-admin 前后端一体骨架（单体 Spring Boot，前端产物打进 jar）</description>
+
+  <modules>
+    <module>seed-common</module>
+    <module>seed-server</module>
+  </modules>
+
+  <properties>
+    <java.version>25</java.version>
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- 第三方版本集中管理（Boot BOM 未覆盖的部分） -->
+    <mybatis-plus.version>3.5.18</mybatis-plus.version>
+    <sa-token.version>1.46.0</sa-token.version>
+    <redisson.version>4.8.0</redisson.version>
+    <hutool.version>5.8.48</hutool.version>
+    <!-- Boot 4 的 BOM 只管理 Jackson 3（tools.jackson）。
+         jackson2 线仅供 Sa-Token 会话序列化使用（sa-token-jackson/redis-jackson 按 2.18 时代 API 编写），
+         2.20+ 对多态反序列化的校验收紧会导致会话读取失败，不要升 -->
+    <jackson2.version>2.18.12</jackson2.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- 本工程模块 -->
+      <dependency>
+        <groupId>io.github.yak33</groupId>
+        <artifactId>seed-common-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.yak33</groupId>
+        <artifactId>seed-common-mybatis</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.yak33</groupId>
+        <artifactId>seed-common-redis</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.yak33</groupId>
+        <artifactId>seed-common-satoken</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.yak33</groupId>
+        <artifactId>seed-common-web</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>cn.dev33</groupId>
+        <artifactId>sa-token-dependencies</artifactId>
+        <version>${sa-token.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-bom</artifactId>
+        <version>${hutool.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- sa-token BOM 不覆盖 redisson 集成件，显式管理 -->
+      <dependency>
+        <groupId>cn.dev33</groupId>
+        <artifactId>sa-token-redisson</artifactId>
+        <version>${sa-token.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+        <version>${mybatis-plus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-jsqlparser</artifactId>
+        <version>${mybatis-plus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.redisson</groupId>
+        <artifactId>redisson-spring-boot-starter</artifactId>
+        <version>${redisson.version}</version>
+      </dependency>
+      <!-- sa-token BOM 会把 redisson 核心仲裁到 3.x，与 4.x starter 混装导致 NoSuchMethodError，显式钉住 -->
+      <dependency>
+        <groupId>org.redisson</groupId>
+        <artifactId>redisson</artifactId>
+        <version>${redisson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson2.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson2.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- 所有模块公用的编译期依赖 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- JDK 23+ 默认关闭隐式注解处理，Lombok 必须显式声明处理器路径 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

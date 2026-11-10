@@ -1,0 +1,3 @@
+# Sa-Token JSON 全局类型白名单（存入 Session 的自定义实体必须在此声明，否则 Redis 反序列化被拒绝）
+# 参考 https://sa-token.com/plugin/json-extend.html
+io.github.yak33.common.core.domain.model.LoginUser

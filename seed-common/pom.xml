@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.github.yak33</groupId>
+    <artifactId>seed-admin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>seed-common</artifactId>
+  <packaging>pom</packaging>
+  <description>公共模块聚合，骨架期保留 5 个公共模块</description>
+
+  <modules>
+    <module>seed-common-core</module>
+    <module>seed-common-mybatis</module>
+    <module>seed-common-redis</module>
+    <module>seed-common-satoken</module>
+    <module>seed-common-web</module>
+  </modules>
+
+</project>

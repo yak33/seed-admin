@@ -1,0 +1,27 @@
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Java / Maven
+target/
+
+# Node / Vite
+node_modules/
+dist/
+dist.zip
+.turbo/
+
+# Logs and OS files
+*.log
+logs/
+.DS_Store
+Thumbs.db
+
+# Local environment overrides and secrets
+.env
+.env.local
+.env.*.local
+**/application-local.yml
+**/application-*.local.yml

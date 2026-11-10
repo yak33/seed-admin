@@ -1,0 +1,49 @@
+# seed-admin 默认配置（不包含真实环境凭据）
+# 本地开发可复制 application-example.yml 为 config/application-local.yml 并启用 local Profile
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: seed-admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:seed_admin}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+    username: ${DB_USER:seed_admin}
+    password: ${DB_PASSWORD:}
+    hikari:
+      max-pool-size: 6
+      min-idle: 1
+      connection-timeout: 30000
+      validation-timeout: 5000
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DB:0}
+      timeout: 10s
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+sa-token:
+  token-name: Authorization
+  token-prefix: Bearer
+  # token 有效期 30 天，30 分钟无操作失效
+  timeout: 2592000
+  active-timeout: 1800
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  is-log: false
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+
+logging:
+  level:
+    io.github.yak33: debug
